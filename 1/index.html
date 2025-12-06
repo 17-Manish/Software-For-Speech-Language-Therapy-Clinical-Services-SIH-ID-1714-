@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLP Clinic Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    body {
+    font-family: 'Inter', sans-serif;
+    background: url('/Users/marimanish/Desktop/1/bg.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    color: #334155;
+}
+
+/* Optional: Make login card readable over background */
+.card {
+    background-color: rgba(255, 255, 255, 0.9); /* translucent white */
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    padding: 2.5rem;
+    backdrop-filter: blur(6px); /* smooth blur */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem; /* Reduced padding for better mobile fit */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .container {
+                padding: 2rem;
+            }
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem; /* rounded-2xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem; /* More padding */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -5px rgba(0, 0, 0, 0.08);
+        }
+        .btn-primary {
+            background-color: #6366f1; /* Indigo 500 */
+            color: white;
+            padding: 0.75rem 1.75rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .btn-primary:hover {
+            background-color: #4f46e5; /* Indigo 600 */
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background-color: #e2e8f0; /* Slate 200 */
+            color: #475569; /* Slate 600 */
+            padding: 0.75rem 1.75rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e1; /* Slate 300 */
+            transform: translateY(-1px);
+        }
+        .btn-danger {
+            background-color: #ef4444; /* Red 500 */
+            color: white;
+            padding: 0.6rem 1.2rem; /* Slightly smaller for inline use */
+            border-radius: 0.6rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626; /* Red 600 */
+            transform: translateY(-1px);
+        }
+        .input-field {
+            border: 1px solid #e2e8f0; /* Slate 200 */
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #f8fafc; /* Light background for inputs */
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .input-field:focus {
+            border-color: #6366f1; /* Indigo 500 on focus */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); /* Light indigo ring */
+            outline: none;
+        }
+        .modal {
+            display: none; /* Controlled by JS, but starts hidden */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6); /* Darker overlay */
+            justify-content: center;
+            align-items: center;
+            padding: 1rem; /* Padding for mobile modals */
+            opacity: 0; /* Initial state for fade-in */
+            transition: opacity 0.3s ease-out; /* Fade transition */
+        }
+        .modal.open {
+            opacity: 1;
+            display: flex; /* Make it visible for animation */
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: auto;
+            padding: 2.5rem; /* More generous padding */
+            border-radius: 1rem;
+            width: 95%; /* Wider for mobile */
+            max-width: 650px; /* Max width */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            position: relative;
+            transform: translateY(-20px); /* Initial state for slide-in */
+            transition: transform 0.3s ease-out; /* Slide transition */
+        }
+        .modal.open .modal-content {
+            transform: translateY(0); /* Final state for slide-in */
+        }
+        .close-button {
+            color: #94a3b8; /* Slate 400 */
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem; /* Larger close button */
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #334155; /* Slate 700 */
+        }
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Specific card styles for overview pages */
+        .overview-card {
+            background-color: #f0f4f8; /* Light blue-gray for overview items */
+            border-left: 5px solid #6366f1; /* Indigo accent */
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+        .overview-card:hover {
+            background-color: #e2e8f0; /* Slate 200 on hover */
+            transform: translateY(-2px);
+        }
+        .overview-card.approved {
+            border-left-color: #22c55e; /* Green 500 */
+        }
+        .overview-card.revisions-needed {
+            border-left-color: #f97316; /* Orange 500 */
+        }
+        .overview-card.pending-review {
+            border-left-color: #facc15; /* Yellow 500 */
+        }
+
+        /* Message styles */
+        .message-success {
+            background-color: #dcfce7; /* Tailwind bg-green-100 */
+            color: #166534; /* Tailwind text-green-800 */
+            border: 1px solid #86efac; /* Tailwind border-green-300 */
+            padding: 1rem 1rem; /* Tailwind px-4 py-3 */
+            border-radius: 0.5rem; /* Tailwind rounded-lg */
+        }
+        .message-error {
+            background-color: #fee2e2; /* Tailwind bg-red-100 */
+            color: #991b1b; /* Tailwind text-red-800 */
+            border: 1px solid #fca5a5; /* Tailwind border-red-300 */
+            padding: 1rem 1rem; /* Tailwind px-4 py-3 */
+            border-radius: 0.5rem; /* Tailwind rounded-lg */
+        }
+        .loading-spinner {
+            border-top-color: #3b82f6; /* Tailwind blue-500 */
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 767px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            #main-nav {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 1rem;
+            }
+            #main-nav button, #main-nav a {
+                margin-left: 0 !important;
+                margin-bottom: 0.5rem;
+                width: 100%;
+                text-align: left;
+                padding: 0.75rem 1rem; /* Adjust padding for better touch targets */
+            }
+            .grid-cols-1-md-2-lg-3 {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="bg-gradient-to-r from-indigo-700 to-purple-800 text-white p-4 shadow-lg">
+        <div class="container flex flex-col md:flex-row justify-between items-center header-content">
+            <h1 class="text-3xl font-extrabold tracking-tight mb-2 md:mb-0">SLP Clinic Hub</h1>
+            <nav id="main-nav" class="flex flex-wrap items-center space-x-2 md:space-x-4 hidden">
+                <button id="dashboard-nav-btn" class="text-white hover:text-indigo-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Dashboard</button>
+                <!-- Dynamic navigation buttons will be inserted here by JS -->
+                <button id="logout-btn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ml-4 md:ml-0">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="app-content" class="flex-grow container mt-8">
+        <div id="auth-view" class="max-w-md mx-auto card fade-in">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">Welcome Back</h2>
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="login-username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                    <input type="text" id="login-username" name="username" class="input-field" required>
+                </div>
+                <div>
+                    <label for="login-password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="login-password" name="password" class="input-field" required>
+                </div>
+                <div>
+                    <label for="login-role" class="block text-sm font-medium text-gray-700 mb-2">Login As</label>
+                    <select id="login-role" class="input-field" required>
+                        <option value="">Select Role</option>
+                        <option value="therapist">Therapist</option>
+                        <option value="supervisor">Supervisor</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary w-full">Login</button>
+                <p id="login-message" class="text-red-500 text-sm text-center mt-4"></p>
+            </form>
+            <div class="mt-8 text-center">
+                <p class="text-gray-600">Don't have an account?</p>
+                <button id="show-register-modal-btn" class="text-indigo-600 hover:underline font-medium mt-2">Register Here</button>
+            </div>
+        </div>
+
+        <!-- Global Status Message Area (for messages outside modals) -->
+        <div id="global-status-message" class="hidden message-error text-center mt-4 p-4 rounded-lg"></div>
+
+    </main>
+
+    <div id="patient-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('patient-modal')">&times;</span>
+            <h3 id="patient-modal-title" class="text-3xl font-bold mb-6 text-gray-800">Add New Patient</h3>
+            <form id="patient-form" class="space-y-5">
+                <input type="hidden" id="patient-id">
+                <div>
+                    <label for="patient-name" class="block text-sm font-medium text-gray-700 mb-2">Patient Name</label>
+                    <input type="text" id="patient-name" class="input-field" placeholder="Patient's Full Name" required>
+                </div>
+                <div>
+                    <label for="patient-age" class="block text-sm font-medium text-gray-700 mb-2">Age</label>
+                    <input type="number" id="patient-age" class="input-field" placeholder="Patient's Age" required>
+                </div>
+                <div>
+                    <label for="patient-diagnosis" class="block text-sm font-medium text-gray-700 mb-2">Diagnosis</label>
+                    <select id="patient-diagnosis" class="input-field" required>
+                        <option value="">Select a Diagnosis</option>
+                        <option value="Articulation Disorder">Articulation Disorder</option>
+                        <option value="Language Delay">Language Delay</option>
+                        <option value="Childhood Apraxia of Speech">Childhood Apraxia of Speech</option>
+                        <option value="Stuttering/Fluency Disorder">Stuttering/Fluency Disorder</option>
+                        <option value="Aphasia">Aphasia</option>
+                        <option value="Autism Spectrum Disorder (ASD)">Autism Spectrum Disorder (ASD)</option>
+                        <option value="Dysphagia">Dysphagia</option>
+                        <option value="Voice Disorder (e.g., Vocal Nodules)">Voice Disorder (e.g., Vocal Nodules)</option>
+                        <option value="Cognitive-Communication Disorder">Cognitive-Communication Disorder</option>
+                        <option value="Developmental Language Disorder">Developmental Language Disorder</option>
+                        <option value="Feeding Disorder">Feeding Disorder</option>
+                        <option value="Phonological Disorder">Phonological Disorder</option>
+                        <option value="Voice Disorder (e.g., Paradoxical Vocal Fold Movement)">Voice Disorder (e.g., Paradoxical Vocal Fold Movement)</option>
+                        <option value="Language Learning Disability">Language Learning Disability</option>
+                        <option value="Traumatic Brain Injury (TBI) - Cognitive-Communication">Traumatic Brain Injury (TBI) - Cognitive-Communication</option>
+                        <option value="Dysarthria">Dysarthria</option>
+                        <option value="Selective Mutism">Selective Mutism</option>
+                        <option value="Auditory Processing Disorder">Auditory Processing Disorder</option>
+                        <option value="Cleft Lip and Palate - Speech">Cleft Lip and Palate - Speech</option>
+                        <option value="Early Intervention - Language">Early Intervention - Language</option>
+                        <option value="Social Communication Disorder">Social Communication Disorder</option>
+                        <option value="Fluency Disorder (Cluttering)">Fluency Disorder (Cluttering)</option>
+                        <option value="Voice Disorder (e.g., Vocal Cord Paralysis)">Voice Disorder (e.g., Vocal Cord Paralysis)</option>
+                        <option value="Intellectual Disability - Communication">Intellectual Disability - Communication</option>
+                        <option value="Resonance Disorder (Hypernasality)">Resonance Disorder (Hypernasality)</option>
+                        <option value="Late Talker">Late Talker</option>
+                        <option value="Acquired Apraxia of Speech">Acquired Apraxia of Speech</option>
+                        <option value="Dysphonia (general)">Dysphonia (general)</option>
+                        <option value="Cerebral Palsy - Speech">Cerebral Palsy - Speech</option>
+                        <option value="Specific Language Impairment">Specific Language Impairment</option>
+                        <option value="Presbyphagia">Presbyphagia</option>
+                        <option value="Parkinson's Disease - Speech">Parkinson's Disease - Speech</option>
+                        <option value="Global Developmental Delay">Global Developmental Delay</option>
+                        <option value="Hearing Impairment - Speech">Hearing Impairment - Speech</option>
+                        <option value="Learning Disability - Phonological Awareness">Learning Disability - Phonological Awareness</option>
+                        <option value="Dementia - Cognitive-Communication">Dementia - Cognitive-Communication</option>
+                        <option value="Adult Stuttering">Adult Stuttering</option>
+                        <option value="Velocardiofacial Syndrome - Speech">Velocardiofacial Syndrome - Speech</option>
+                        </select>
+                </div>
+                <div id="assign-therapist-field" class="hidden">
+                    <label for="assigned-therapist" class="block text-sm font-medium text-gray-700 mb-2">Assign Therapist</label>
+                    <select id="assigned-therapist" class="input-field"></select>
+                </div>
+                <button type="submit" class="btn-primary w-full">Save Patient</button>
+                <p class="text-red-500 text-sm text-center mt-2 hidden"></p> <!-- Add this line -->
+            </form>
+        </div>
+    </div>
+
+    <div id="therapy-plan-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('therapy-plan-modal')">&times;</span>
+            <h3 class="text-3xl font-bold mb-6 text-gray-800">Therapy Plan</h3>
+            <form id="therapy-plan-form" class="space-y-5">
+                <input type="hidden" id="plan-patient-id">
+                <input type="hidden" id="plan-id">
+                <div>
+                    <label for="plan-goals" class="block text-sm font-medium text-gray-700 mb-2">Goals</label>
+                    <textarea id="plan-goals" class="input-field h-32" placeholder="Specific, Measurable, Achievable, Relevant, Time-bound goals" required></textarea>
+                </div>
+                <div>
+                    <label for="plan-activities" class="block text-sm font-medium text-gray-700 mb-2">Activities</label>
+                    <textarea id="plan-activities" class="input-field h-32" placeholder="Detailed activities to achieve goals" required></textarea>
+                </div>
+                <button type="button" id="generate-plan-btn" class="btn-secondary w-full">Generate Plan </button>
+                <p id="generate-plan-message" class="text-sm text-gray-500 mt-2 text-center"></p>
+                <div id="plan-status-feedback" class="hidden bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <p class="text-sm font-medium text-gray-700 mb-1">Status: <span id="plan-current-status" class="font-semibold text-blue-700"></span></p>
+                    <p class="text-sm font-medium text-gray-700">Supervisor Feedback: <span id="plan-current-feedback" class="font-semibold text-gray-600"></span></p>
+                </div>
+                <button type="submit" class="btn-primary w-full">Save Therapy Plan</button>
+                <div id="supervisor-plan-review-actions" class="mt-6 space-y-3 hidden">
+                    <textarea id="plan-review-feedback" class="input-field h-24" placeholder="Enter feedback for therapist"></textarea>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button type="button" class="btn-primary flex-grow" onclick="reviewTherapyPlan('Approved')">Approve Plan</button>
+                        <button type="button" class="btn-secondary flex-grow" onclick="reviewTherapyPlan('Revisions Needed')">Request Revisions</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="session-note-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('session-note-modal')">&times;</span>
+            <h3 class="text-3xl font-bold mb-6 text-gray-800">Session Note</h3>
+            <form id="session-note-form" class="space-y-5">
+                <input type="hidden" id="note-patient-id">
+                <input type="hidden" id="note-id">
+                <input type="hidden" id="note-plan-id"> <div>
+                    <label for="note-date" class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                    <input type="date" id="note-date" class="input-field" required>
+                </div>
+                <div>
+                    <label for="note-content" class="block text-sm font-medium text-gray-700 mb-2">Note (SOAP format encouraged)</label>
+                    <textarea id="note-content" class="input-field h-40" placeholder="S: Subjective, O: Objective, A: Assessment, P: Plan" required></textarea>
+                </div>
+                <div id="note-video-section" class="mt-4">
+                    <label for="note-video-upload" class="block text-sm font-medium text-gray-700 mb-2">Upload Session Video (Optional)</label>
+                    <input type="file" id="note-video-upload" accept="video/*" class="input-field file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                    <p id="note-video-upload-message" class="text-sm text-gray-500 mt-2 text-center"></p>
+                    <div id="current-note-video" class="mt-4 p-4 bg-gray-50 rounded-lg hidden">
+                        <h6 class="text-base font-semibold text-gray-700 mb-2">Current Video:</h6>
+                        <video controls class="w-full h-auto rounded-md shadow-sm" style="max-height: 250px; object-fit: contain;"></video>
+                        <a href="#" target="_blank" class="text-indigo-600 hover:underline text-sm mt-2 block text-center">View Full Video</a>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary w-full">Save Session Note</button>
+                <p class="text-red-500 text-sm text-center mt-2 hidden"></p> <!-- Add this line -->
+            </form>
+        </div>
+    </div>
+
+    <div id="progress-report-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('progress-report-modal')">&times;</span>
+            <h3 class="text-3xl font-bold mb-6 text-gray-800">Progress Report</h3>
+            <form id="progress-report-form" class="space-y-5">
+                <input type="hidden" id="report-patient-id">
+                <input type="hidden" id="report-id">
+                <div>
+                    <label for="report-date" class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                    <input type="date" id="report-date" class="input-field" required>
+                </div>
+                <div>
+                    <label for="report-summary" class="block text-sm font-medium text-gray-700 mb-2">Summary of Progress</label>
+                    <textarea id="report-summary" class="input-field h-40" placeholder="Summarize patient's progress towards goals" required></textarea>
+                </div>
+                <div id="report-status-evaluation" class="hidden bg-green-50 p-4 rounded-lg border border-green-200">
+                    <p class="text-sm font-medium text-gray-700 mb-1">Status: <span id="report-current-status" class="font-semibold text-green-700"></span></p>
+                    <p class="text-sm font-medium text-gray-700 mb-1">Supervisor Evaluation: <span id="report-current-evaluation" class="font-semibold text-gray-600"></span></p>
+                    <p class="text-sm font-medium text-gray-700">Clinical Rating: <span id="report-current-rating" class="font-semibold text-gray-600"></span></p>
+                </div>
+                <button type="submit" class="btn-primary w-full">Save Progress Report</button>
+                <div id="supervisor-report-review-actions" class="mt-6 space-y-3 hidden">
+                    <textarea id="report-review-evaluation" class="input-field h-24" placeholder="Enter evaluation for therapist"></textarea>
+                    <div>
+                        <label for="report-review-rating" class="block text-sm font-medium text-gray-700 mb-2">Clinical Rating</label>
+                        <input type="text" id="report-review-rating" class="input-field" placeholder="e.g., 'Excellent', 'Good', 'Needs Improvement'">
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button type="button" class="btn-primary flex-grow" onclick="reviewProgressReport('Approved')">Approve Report</button>
+                        <button type="button" class="btn-secondary flex-grow" onclick="reviewProgressReport('Revisions Needed')">Request Revisions</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('register-modal')">&times;</span>
+            <h3 class="text-3xl font-bold mb-6 text-gray-800">Create New Account</h3>
+            <form id="register-form" class="space-y-5">
+                <div>
+                    <label for="register-name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="register-name" class="input-field" placeholder="Your Full Name" required>
+                </div>
+                <div>
+                    <label for="register-username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                    <input type="text" id="register-username" class="input-field" placeholder="Choose a Username" required>
+                </div>
+                <div>
+                    <label for="register-password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="register-password" class="input-field" placeholder="Choose a Password" required>
+                </div>
+                <div>
+                    <label for="register-role" class="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
+                    <select id="register-role" class="input-field" required>
+                        <option value="">Select Account Type</option>
+                        <option value="therapist">Therapist</option>
+                        <option value="supervisor">Supervisor</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary w-full">Register Account</button>
+                <p id="register-message" class="text-red-500 text-sm text-center mt-4"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="add-therapist-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('add-therapist-modal')">&times;</span>
+            <h3 class="text-3xl font-bold mb-6 text-gray-800">Add New Therapist</h3>
+            <form id="add-therapist-form" class="space-y-5">
+                <div>
+                    <label for="new-therapist-name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="new-therapist-name" class="input-field" placeholder="Therapist's Full Name" required>
+                </div>
+                <div>
+                    <label for="new-therapist-username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                    <input type="text" id="new-therapist-username" class="input-field" placeholder="Therapist's Username" required>
+                </div>
+                <div>
+                    <label for="new-therapist-password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="new-therapist-password" class="input-field" placeholder="Set Password" required>
+                </div>
+                <button type="submit" class="btn-primary w-full">Add Therapist</button>
+                <p id="add-therapist-message" class="text-red-500 text-sm text-center mt-4"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="confirmation-message" class="text-2xl font-semibold text-gray-800 mb-4">Are you sure you want to proceed?</h3>
+            <p id="confirmation-subtext" class="text-gray-600 text-base mb-6"></p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button id="confirm-yes-btn" class="btn-danger flex-grow sm:flex-none">Yes, Delete</button>
+                <button id="confirm-no-btn" class="btn-secondary flex-grow sm:flex-none">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="therapy-plans-overview-page" class="hidden container mt-8">
+        <div class="card p-6 fade-in">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4 sm:mb-0">All Therapy Plans</h2>
+                <button id="back-from-plans-overview-btn" class="btn-secondary">Back to Dashboard</button>
+            </div>
+            <div id="all-therapy-plans-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </div>
+    </div>
+
+    <div id="progress-reports-overview-page" class="hidden container mt-8">
+        <div class="card p-6 fade-in">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4 sm:mb-0">All Progress Reports</h2>
+                <button id="back-from-reports-overview-btn" class="btn-secondary">Back to Dashboard</button>
+            </div>
+            <div id="all-progress-reports-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </div>
+    </div>
+
+    <!-- NEW: ML Therapy Plan Generator Page -->
+    <div id="ml-plan-page" class="hidden container mt-8">
+        <div class="card p-6 fade-in">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4 sm:mb-0">Therapy Plan Generator</h2>
+                <button id="back-from-ml-plan-btn" class="btn-secondary">Back to Dashboard</button>
+            </div>
+
+            <div class="mb-5">
+                <label for="ml-diagnosis" class="block text-sm font-medium text-gray-700 mb-2">Patient Diagnosis</label>
+                <input type="text" id="ml-diagnosis" class="input-field" placeholder="e.g., Aphasia, ASD, Fluency Disorder">
+            </div>
+            <div class="mb-7">
+                <label for="ml-age" class="block text-sm font-medium text-gray-700 mb-2">Patient Age</label>
+                <input type="number" id="ml-age" class="input-field" placeholder="e.g., 5, 25, 60">
+            </div>
+
+            <button id="generate-ml-plan-btn-page" class="btn-primary w-full mb-8">Generate ML Plan</button>
+
+            <div id="ml-plan-results-page" class="bg-blue-50 p-8 rounded-xl border border-blue-200 shadow-md hidden">
+                <h3 class="text-2xl font-bold mb-5 text-blue-800">Generated Therapy Plan</h3>
+                <div class="space-y-3">
+                    <p class="text-gray-700"><strong class="text-blue-700">Goals:</strong> <span id="ml-plan-goals-page" class="block mt-1 pl-4"></span></p>
+                    <p class="text-gray-700"><strong class="text-blue-700">Activities:</strong> <span id="ml-plan-activities-page" class="block mt-1 pl-4"></span></p>
+                </div>
+                <p class="text-gray-600 text-sm mt-6 text-right opacity-80"><em>(Plan generated based on closest match from ML dataset.<br>Source Diagnosis: <span id="ml-plan-source-diagnosis-page"></span>, Source Age: <span id="ml-plan-source-age-page"></span>)</em></p>
+            </div>
+            <p id="ml-plan-message-page" class="text-red-500 text-sm mt-4 text-center font-medium"></p>
+            <div id="ml-plan-loading-page" class="hidden text-center mt-6">
+                <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-r-transparent loading-spinner"></div>
+                <p class="text-gray-600 mt-3 text-lg">Generating plan...</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Configuration ---
+        const BACKEND_URL = 'http://127.0.0.1:5000'; // Replace with your Flask backend URL if different
+
+        // --- Global State Variables ---
+        let currentUser = null; // Stores the user's ID from the database
+        let currentRole = null;
+        let currentUserName = null; // Full name of the logged-in user
+        let currentPatientId = null; // Used when viewing a specific patient's details
+        let allTherapists = {}; // To store therapist names for display
+
+        // For generic confirmation modal
+        let confirmActionCallback = null;
+
+        // --- DOM Elements ---
+        const appContent = document.getElementById('app-content');
+        const authView = document.getElementById('auth-view');
+        const loginForm = document.getElementById('login-form');
+        const loginUsernameInput = document.getElementById('login-username');
+        const loginPasswordInput = document.getElementById('login-password');
+        const loginRoleSelect = document.getElementById('login-role');
+        const loginMessage = document.getElementById('login-message');
+        const mainNav = document.getElementById('main-nav');
+        const dashboardNavBtn = document.getElementById('dashboard-nav-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const showRegisterModalBtn = document.getElementById('show-register-modal-btn');
+        const globalStatusMessage = document.getElementById('global-status-message');
+
+
+        // Modals
+        const patientModal = document.getElementById('patient-modal');
+        const patientModalTitle = document.getElementById('patient-modal-title');
+        const patientForm = document.getElementById('patient-form');
+        const patientIdInput = document.getElementById('patient-id');
+        const patientNameInput = document.getElementById('patient-name');
+        const patientAgeInput = document.getElementById('patient-age');
+        const patientDiagnosisInput = document.getElementById('patient-diagnosis'); // Now a select
+        const assignTherapistField = document.getElementById('assign-therapist-field');
+        const assignedTherapistSelect = document.getElementById('assigned-therapist');
+
+        const therapyPlanModal = document.getElementById('therapy-plan-modal');
+        const therapyPlanForm = document.getElementById('therapy-plan-form');
+        const planPatientIdInput = document.getElementById('plan-patient-id');
+        const planIdInput = document.getElementById('plan-id');
+        const planGoalsInput = document.getElementById('plan-goals');
+        const planActivitiesInput = document.getElementById('plan-activities');
+        const generatePlanBtn = document.getElementById('generate-plan-btn');
+        const generatePlanMessage = document.getElementById('generate-plan-message');
+        const planStatusFeedbackDiv = document.getElementById('plan-status-feedback');
+        const planCurrentStatusSpan = document.getElementById('plan-current-status');
+        const planCurrentFeedbackSpan = document.getElementById('plan-current-feedback');
+        const supervisorPlanReviewActions = document.getElementById('supervisor-plan-review-actions');
+        const planReviewFeedbackTextarea = document.getElementById('plan-review-feedback');
+
+        const sessionNoteModal = document.getElementById('session-note-modal');
+        const sessionNoteForm = document.getElementById('session-note-form');
+        const notePatientIdInput = document.getElementById('note-patient-id');
+        const noteIdInput = document.getElementById('note-id'); // Added for editing session notes
+        const noteDateInput = document.getElementById('note-date');
+        const noteContentTextarea = document.getElementById('note-content');
+        const notePlanIdInput = document.getElementById('note-plan-id'); // Added for consistency
+        const noteVideoUploadInput = document.getElementById('note-video-upload');
+        const noteVideoUploadMessage = document.getElementById('note-video-upload-message');
+        const currentNoteVideoDiv = document.getElementById('current-note-video');
+        const currentNoteVideoElement = currentNoteVideoDiv.querySelector('video');
+        const currentNoteVideoLink = currentNoteVideoDiv.querySelector('a');
+
+        const progressReportModal = document.getElementById('progress-report-modal');
+        const progressReportForm = document.getElementById('progress-report-form');
+        const reportPatientIdInput = document.getElementById('report-patient-id');
+        const reportIdInput = document.getElementById('report-id');
+        const reportDateInput = document.getElementById('report-date');
+        const reportSummaryTextarea = document.getElementById('report-summary');
+
+        const reportStatusEvaluationDiv = document.getElementById('report-status-evaluation');
+        const reportCurrentStatusSpan = document.getElementById('report-current-status');
+        const reportCurrentEvaluationSpan = document.getElementById('report-current-evaluation');
+        const reportCurrentRatingSpan = document.getElementById('report-current-rating');
+        const supervisorReportReviewActions = document.getElementById('supervisor-report-review-actions');
+        const reportReviewEvaluationTextarea = document.getElementById('report-review-evaluation');
+        const reportReviewRatingInput = document.getElementById('report-review-rating');
+
+        // New Registration Modal Elements
+        const registerModal = document.getElementById('register-modal');
+        const registerForm = document.getElementById('register-form');
+        const registerNameInput = document.getElementById('register-name');
+        const registerUsernameInput = document.getElementById('register-username');
+        const registerPasswordInput = document.getElementById('register-password');
+        const registerRoleSelect = document.getElementById('register-role');
+        const registerMessage = document.getElementById('register-message');
+
+        // New Add Therapist Modal Elements
+        const addTherapistModal = document.getElementById('add-therapist-modal');
+        const addTherapistForm = document.getElementById('add-therapist-form');
+        const newTherapistNameInput = document.getElementById('new-therapist-name');
+        const newTherapistUsernameInput = document.getElementById('new-therapist-username');
+        const newTherapistPasswordInput = document.getElementById('new-therapist-password');
+        const addTherapistMessage = document.getElementById('add-therapist-message');
+
+        // Confirmation Modal Elements
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const confirmationSubtext = document.getElementById('confirmation-subtext');
+        const confirmYesBtn = document.getElementById('confirm-yes-btn');
+        const confirmNoBtn = document.getElementById('confirm-no-btn');
+
+        // New Overview Page Elements
+        const therapyPlansOverviewPage = document.getElementById('therapy-plans-overview-page');
+        const allTherapyPlansList = document.getElementById('all-therapy-plans-list');
+        const backFromPlansOverviewBtn = document.getElementById('back-from-plans-overview-btn');
+
+        const progressReportsOverviewPage = document.getElementById('progress-reports-overview-page');
+        const allProgressReportsList = document.getElementById('all-progress-reports-list');
+        const backFromReportsOverviewBtn = document.getElementById('back-from-reports-overview-btn');
+
+        // NEW: ML Therapy Plan Page Elements
+        const mlPlanPage = document.getElementById('ml-plan-page');
+        const backFromMlPlanBtn = document.getElementById('back-from-ml-plan-btn');
+        const mlDiagnosisInputPage = document.getElementById('ml-diagnosis');
+        const mlAgeInputPage = document.getElementById('ml-age');
+        const generateMlPlanBtnPage = document.getElementById('generate-ml-plan-btn-page');
+        const mlPlanResultsDivPage = document.getElementById('ml-plan-results-page');
+        const mlPlanGoalsSpanPage = document.getElementById('ml-plan-goals-page');
+        const mlPlanActivitiesSpanPage = document.getElementById('ml-plan-activities-page');
+        const mlPlanSourceDiagnosisSpanPage = document.getElementById('ml-plan-source-diagnosis-page');
+        const mlPlanSourceAgeSpanPage = document.getElementById('ml-plan-source-age-page');
+        const mlPlanMessagePage = document.getElementById('ml-plan-message-page');
+        const mlPlanLoadingPage = document.getElementById('ml-plan-loading-page');
+
+
+        // --- Event Listeners ---
+        loginForm.addEventListener('submit', handleLogin);
+        logoutBtn.addEventListener('click', handleLogout);
+        dashboardNavBtn.addEventListener('click', renderDashboard);
+        patientForm.addEventListener('submit', handleSavePatient);
+        therapyPlanForm.addEventListener('submit', handleSaveTherapyPlan);
+        sessionNoteForm.addEventListener('submit', handleSaveSessionNote);
+        progressReportForm.addEventListener('submit', handleSaveProgressReport);
+        showRegisterModalBtn.addEventListener('click', () => openModal(registerModal)); // Changed to openModal
+        registerForm.addEventListener('submit', handleRegister);
+        addTherapistForm.addEventListener('submit', handleAddTherapist);
+        generatePlanBtn.addEventListener('click', handleGenerateTherapyPlan);
+
+        // New overview page back buttons
+        backFromPlansOverviewBtn.addEventListener('click', renderDashboard);
+        backFromReportsOverviewBtn.addEventListener('click', renderDashboard);
+
+        // NEW: ML page event listener
+        backFromMlPlanBtn.addEventListener('click', renderDashboard);
+        generateMlPlanBtnPage.addEventListener('click', handleGenerateMLPlanPage);
+
+
+        // Confirmation modal event listeners
+        confirmYesBtn.addEventListener('click', () => {
+            if (confirmActionCallback) {
+                confirmActionCallback(true);
+            }
+            closeModal('confirmation-modal');
+        });
+        confirmNoBtn.addEventListener('click', () => {
+            if (confirmActionCallback) {
+                confirmActionCallback(false);
+            }
+            closeModal('confirmation-modal');
+        });
+
+
+        // --- Utility Functions ---
+        function openModal(modalElement) {
+            modalElement.style.display = 'flex'; // Make it visible
+            // Force reflow to ensure transition
+            void modalElement.offsetWidth; // Trigger reflow
+            modalElement.classList.add('open'); // Add 'open' class for transition
+        }
+
+        function closeModal(modalId) {
+            const modalElement = document.getElementById(modalId);
+            modalElement.classList.remove('open'); // Remove 'open' class for reverse transition
+            modalElement.addEventListener('transitionend', function handler() {
+                modalElement.style.display = 'none'; // Hide after transition
+                modalElement.removeEventListener('transitionend', handler);
+                // Reset forms when closing after transition
+                if (modalId === 'patient-modal') patientForm.reset();
+                if (modalId === 'therapy-plan-modal') {
+                    therapyPlanForm.reset();
+                    generatePlanMessage.textContent = '';
+                    planGoalsInput.readOnly = false; // Reset readOnly state
+                    planActivitiesInput.readOnly = false; // Reset readOnly state
+                    therapyPlanForm.querySelector('button[type="submit"]').classList.remove('hidden'); // Show save button
+                    generatePlanBtn.classList.remove('hidden'); // Show generate button
+                    planStatusFeedbackDiv.classList.add('hidden'); // Hide status/feedback
+                    supervisorPlanReviewActions.classList.add('hidden'); // Hide review actions
+                }
+                if (modalId === 'session-note-modal') {
+                    sessionNoteForm.reset();
+                    noteVideoUploadInput.value = '';
+                    clearMessage(noteVideoUploadMessage);
+                    currentNoteVideoDiv.classList.add('hidden');
+                    currentNoteVideoElement.src = '';
+                    noteVideoUploadInput.disabled = false; // Reset disabled state
+                    noteDateInput.readOnly = false; // Reset readOnly state
+                    noteContentTextarea.readOnly = false; // Reset readOnly state
+                    sessionNoteForm.querySelector('button[type="submit"]').classList.remove('hidden'); // Show save button
+                }
+                if (modalId === 'progress-report-modal') {
+                    progressReportForm.reset();
+                    reportDateInput.readOnly = false; // Reset readOnly state
+                    reportSummaryTextarea.readOnly = false; // Reset readOnly state
+                    progressReportForm.querySelector('button[type="submit"]').classList.remove('hidden'); // Show save button
+                    supervisorReportReviewActions.classList.add('hidden'); // Hide review actions
+                    reportStatusEvaluationDiv.classList.add('hidden'); // Hide status/evaluation display
+                }
+                if (modalId === 'register-modal') {
+                    registerForm.reset();
+                    clearMessage(registerMessage);
+                }
+                if (modalId === 'add-therapist-modal') {
+                    addTherapistForm.reset();
+                    clearMessage(addTherapistMessage);
+                }
+                if (modalId === 'confirmation-modal') {
+                    confirmActionCallback = null; // Clear callback
+                }
+            }, { once: true }); // Ensure handler runs only once
+        }
+
+        function showConfirmationModal(message, subtext, callback) {
+            confirmationMessage.textContent = message;
+            confirmationSubtext.textContent = subtext;
+            confirmActionCallback = callback;
+            openModal(confirmationModal); // Use openModal for transition
+        }
+
+        function displayMessage(element, message, isError = false) {
+            element.textContent = message;
+            element.classList.remove('message-success', 'message-error', 'hidden');
+            if (message) { // Only show if there's a message
+                element.classList.add(isError ? 'message-error' : 'message-success');
+            } else {
+                element.classList.add('hidden'); // Hide if message is empty
+            }
+        }
+
+        function clearMessage(element) {
+            if (!element) return;
+            element.textContent = '';
+            element.classList.add('hidden');
+            element.classList.remove('message-success', 'message-error');
+        }
+
+        async function fetchData(endpoint, method = 'GET', body = null, isFormData = false) {
+            try {
+                const options = { method };
+                if (body) {
+                    if (isFormData) {
+                        options.body = body; // FormData sets its own Content-Type
+                    } else {
+                        options.headers = { 'Content-Type': 'application/json' };
+                        options.body = JSON.stringify(body);
+                    }
+                }
+                const response = await fetch(`${BACKEND_URL}${endpoint}`, options);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Fetch error:', error);
+                // Specific error messages for login/register/add therapist
+                if (endpoint === '/login') displayMessage(loginMessage, `Error: ${error.message}`, true);
+                else if (endpoint === '/register') displayMessage(registerMessage, `Error: ${error.message}`, true);
+                else if (endpoint === '/users' && method === 'POST') displayMessage(addTherapistMessage, `Error: ${error.message}`, true);
+                else if (endpoint === '/upload_video') displayMessage(noteVideoUploadMessage, `Video upload error: ${error.message}`, true);
+                else if (endpoint === '/therapy_plans/generate') {
+                    // Specific handling for ML prediction errors
+                    displayMessage(mlPlanMessagePage, `ML generation error: ${error.message}`, true);
+                }
+                // For other errors, display on the global status message
+                else {
+                    displayMessage(globalStatusMessage, `An error occurred: ${error.message}. Please check console for details.`, true);
+                }
+                return null;
+            }
+        }
+
+        // --- Authentication ---
+        async function handleLogin(event) {
+            event.preventDefault();
+            const username = loginUsernameInput.value;
+            const password = loginPasswordInput.value;
+            const role = loginRoleSelect.value;
+
+            if (!role) {
+                displayMessage(loginMessage, 'Please select a role.', true);
+                return;
+            }
+
+            const data = await fetchData('/login', 'POST', { username, password, role });
+
+            if (data && data.userId) {
+                currentUser = data.userId;
+                currentRole = data.role;
+                currentUserName = data.name;
+                authView.classList.add('hidden');
+                appContent.classList.remove('flex', 'justify-center', 'items-center'); // Remove centering for dashboard
+                mainNav.classList.remove('hidden');
+                await fetchAllTherapists();
+                renderDashboard();
+                updateMainNavButtons(); // Call to update nav buttons after login
+                displayMessage(globalStatusMessage, 'Logged in successfully!', false);
+            } else {
+                // Error message already displayed by fetchData for login endpoint
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            const name = registerNameInput.value;
+            const username = registerUsernameInput.value;
+            const password = registerPasswordInput.value;
+            const role = registerRoleSelect.value;
+
+            if (!role) {
+                displayMessage(registerMessage, 'Please select an account type.', true);
+                return;
+            }
+
+            const data = await fetchData('/register', 'POST', { name, username, password, role });
+
+            if (data) {
+                displayMessage(registerMessage, data.message, false);
+                setTimeout(() => {
+                    closeModal('register-modal');
+                    loginUsernameInput.value = username;
+                    loginRoleSelect.value = role;
+                    displayMessage(loginMessage, 'Account created successfully! Please log in.', false);
+                }, 1500);
+            } else {
+                // Error message already displayed by fetchData for register endpoint
+            }
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            currentRole = null;
+            currentUserName = null;
+            allTherapists = {};
+            appContent.innerHTML = '';
+            appContent.appendChild(authView);
+            authView.classList.remove('hidden');
+            mainNav.classList.add('hidden');
+            loginForm.reset();
+            clearMessage(loginMessage);
+            displayMessage(globalStatusMessage, 'Logged out successfully.', false);
+            updateMainNavButtons(); // Clear nav buttons on logout
+            // Hide all overview pages
+            therapyPlansOverviewPage.classList.add('hidden');
+            progressReportsOverviewPage.classList.add('hidden');
+            mlPlanPage.classList.add('hidden'); // NEW: Hide ML page on logout
+        }
+
+        // Function to dynamically update main navigation buttons based on role
+        function updateMainNavButtons() {
+            // Clear existing dynamic buttons (everything except dashboard and logout)
+            const existingDynamicButtons = mainNav.querySelectorAll('.dynamic-nav-btn');
+            existingDynamicButtons.forEach(btn => btn.remove());
+
+            // Add buttons based on role
+            if (currentRole === 'therapist' || currentRole === 'supervisor' || currentRole === 'admin') {
+                const addPatientBtn = document.createElement('button');
+                addPatientBtn.id = 'nav-add-patient-btn';
+                addPatientBtn.className = 'dynamic-nav-btn text-white hover:text-indigo-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200';
+                addPatientBtn.textContent = 'Add Patient';
+                addPatientBtn.addEventListener('click', () => openPatientModal('add'));
+                mainNav.insertBefore(addPatientBtn, logoutBtn); // Insert before logout
+
+                // Added ML Therapy Plan button for all logged-in users who can add patients
+                const mlTherapyPlanBtn = document.createElement('button');
+                mlTherapyPlanBtn.id = 'nav-ml-plan-btn';
+                mlTherapyPlanBtn.className = 'dynamic-nav-btn text-white hover:text-indigo-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200';
+                mlTherapyPlanBtn.textContent = 'ML Therapy Plan';
+                mlTherapyPlanBtn.addEventListener('click', () => renderMLTherapyPlanPage());
+                mainNav.insertBefore(mlTherapyPlanBtn, logoutBtn);
+
+
+                if (currentRole === 'supervisor' || currentRole === 'admin') {
+                    const addTherapistBtn = document.createElement('button');
+                    addTherapistBtn.id = 'nav-add-therapist-btn';
+                    addTherapistBtn.className = 'dynamic-nav-btn text-white hover:text-indigo-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200';
+                    addTherapistBtn.textContent = 'Add Therapist';
+                    addTherapistBtn.addEventListener('click', () => openModal(addTherapistModal)); // Changed to openModal
+                    mainNav.insertBefore(addTherapistBtn, logoutBtn);
+
+                    const viewPlansBtn = document.createElement('button');
+                    viewPlansBtn.id = 'nav-view-plans-btn';
+                    viewPlansBtn.className = 'dynamic-nav-btn text-white hover:text-indigo-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200';
+                    viewPlansBtn.textContent = 'View All Plans';
+                    viewPlansBtn.addEventListener('click', renderTherapyPlansOverviewPage);
+                    mainNav.insertBefore(viewPlansBtn, logoutBtn);
+
+                    const viewReportsBtn = document.createElement('button');
+                    viewReportsBtn.id = 'nav-view-reports-btn';
+                    viewReportsBtn.className = 'dynamic-nav-btn text-white hover:text-indigo-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200';
+                    viewReportsBtn.textContent = 'View All Reports';
+                    viewReportsBtn.addEventListener('click', renderProgressReportsOverviewPage);
+                    mainNav.insertBefore(viewReportsBtn, logoutBtn);
+
+
+                    if (currentRole === 'admin') {
+                        const manageUsersBtn = document.createElement('button');
+                        manageUsersBtn.id = 'nav-manage-users-btn';
+                        manageUsersBtn.className = 'dynamic-nav-btn text-white hover:text-indigo-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200';
+                        manageUsersBtn.textContent = 'Manage Users';
+                        manageUsersBtn.addEventListener('click', renderManageUsers);
+                        mainNav.insertBefore(manageUsersBtn, logoutBtn);
+                    }
+                }
+            }
+        }
+
+
+        // --- Helper to fetch all therapists (for supervisor/admin assignment) ---
+        async function fetchAllTherapists() {
+            const therapistsData = await fetchData('/users?role=therapist');
+            allTherapists = {};
+            if (therapistsData) {
+                for (const userId in therapistsData) {
+                    allTherapists[userId] = therapistsData[userId].name;
+                }
+            }
+        }
+
+        function getTherapistNameById(therapistId) {
+            return allTherapists[therapistId] || 'Unassigned / Unknown';
+        }
+
+        // --- Dashboard Rendering ---
+        async function renderDashboard() {
+            // Hide all other pages/modals
+            therapyPlansOverviewPage.classList.add('hidden');
+            progressReportsOverviewPage.classList.add('hidden');
+            mlPlanPage.classList.add('hidden'); // NEW: Hide ML page on dashboard
+            // Close all modals, they will reset their states on close
+            closeModal('patient-modal');
+            closeModal('therapy-plan-modal');
+            closeModal('session-note-modal');
+            closeModal('progress-report-modal');
+            closeModal('register-modal');
+            closeModal('add-therapist-modal');
+            closeModal('confirmation-modal');
+
+
+            appContent.innerHTML = '';
+            appContent.classList.remove('flex', 'justify-center', 'items-center'); // Ensure content is not centered if it was for login
+
+            const dashboardContainer = document.createElement('div');
+            dashboardContainer.className = 'card p-6 fade-in';
+
+            let welcomeImage = '';
+            let welcomeMessage = '';
+
+            const roleImages = {
+                'therapist': 'https://placehold.co/100x100/A78BFA/FFFFFF?text=Therapist',
+                'supervisor': 'https://placehold.co/100x100/6366F1/FFFFFF?text=Supervisor',
+                'admin': 'https://placehold.co/100x100/4F46E5/FFFFFF?text=Admin'
+            };
+
+            switch (currentRole) {
+                case 'therapist':
+                    welcomeImage = roleImages.therapist;
+                    welcomeMessage = `Welcome, ${currentUserName}! Let's review your patient's progress and update their plans.`;
+                    break;
+                case 'supervisor':
+                    welcomeImage = roleImages.supervisor;
+                    welcomeMessage = `Welcome, ${currentUserName}! Here's an overview of the clinic. Let's manage our team and patient care.`;
+                    break;
+                case 'admin':
+                    welcomeImage = roleImages.admin;
+                    welcomeMessage = `Welcome, ${currentUserName}! You have full control over the system's management.`;
+                    break;
+                default:
+                    welcomeImage = 'https://placehold.co/100x100/E5E7EB/374151?text=Welcome';
+                    welcomeMessage = `Welcome to SLP Clinical Services!`;
+            }
+
+            let dashboardHtml = `
+                <div class="flex flex-col sm:flex-row items-center gap-4 mb-8 pb-6 border-b border-gray-200">
+                    <img src="${welcomeImage}" onerror="this.onerror=null;this.src='https://placehold.co/100x100/E5E7EB/374151?text=User';" alt="${currentRole} icon" class="w-24 h-24 rounded-full object-cover shadow-md">
+                    <div>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-gray-800">${welcomeMessage}</h2>
+                        <p class="text-lg text-gray-600 mt-1">You are logged in as a <span class="font-semibold text-indigo-700">${currentRole.charAt(0).toUpperCase() + currentRole.slice(1)}</span>.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="card p-6 flex flex-col sm:flex-row items-center justify-center bg-blue-50 border border-blue-200">
+                        <img src="https://placehold.co/120x120/DBEAFE/1E40AF?text=Patient+Care" onerror="this.onerror=null;this.src='https://placehold.co/120x120/DBEAFE/1E40AF?text=Patient+Care';" alt="Patient Care Image" class="rounded-full mr-0 sm:mr-4 mb-4 sm:mb-0 w-24 h-24 object-cover">
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-xl font-semibold text-blue-800 mb-2">Dedicated Patient Care</h3>
+                            <p class="text-gray-700 text-sm">Our comprehensive system ensures personalized care for every patient.</p>
+                        </div>
+                    </div>
+                    <div class="card p-6 flex flex-col sm:flex-row items-center justify-center bg-green-50 border border-green-200">
+                        <img src="https://placehold.co/120x120/D1FAE5/065F46?text=Teamwork" onerror="this.onerror=null;this.src='https://placehold.co/120x120/D1FAE5/065F46?text=Teamwork';" alt="Teamwork Image" class="rounded-full mr-0 sm:mr-4 mb-4 sm:mb-0 w-24 h-24 object-cover">
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-xl font-semibold text-green-800 mb-2">Collaborative Teamwork</h3>
+                            <p class="text-gray-700 text-sm">Seamless collaboration leads to better outcomes and efficient clinic management.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (currentRole === 'therapist') {
+                dashboardHtml += `
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-semibold text-gray-700">My Patients</h3>
+                    </div>
+                    <div id="patient-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        </div>
+                `;
+            } else if (currentRole === 'supervisor' || currentRole === 'admin') {
+                dashboardHtml += `
+                    <h3 class="text-2xl font-semibold text-gray-700 mt-8 mb-4">All Patients</h3>
+                    <div id="all-patient-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        </div>
+                `;
+            }
+
+            dashboardContainer.innerHTML = dashboardHtml;
+            appContent.appendChild(dashboardContainer);
+
+            if (currentRole === 'therapist') {
+                loadTherapistPatients();
+            } else if (currentRole === 'supervisor' || currentRole === 'admin') {
+                loadAllPatients();
+            }
+        }
+
+        // --- Manage Users View (Admin Only) ---
+        async function renderManageUsers() {
+            // Hide all other pages/modals
+            therapyPlansOverviewPage.classList.add('hidden');
+            progressReportsOverviewPage.classList.add('hidden');
+            mlPlanPage.classList.add('hidden'); // NEW: Hide ML page
+            closeModal('patient-modal');
+            closeModal('therapy-plan-modal');
+            closeModal('session-note-modal');
+            closeModal('progress-report-modal');
+            closeModal('register-modal');
+            closeModal('add-therapist-modal');
+            closeModal('confirmation-modal');
+
+            appContent.innerHTML = '';
+            const manageUsersContainer = document.createElement('div');
+            manageUsersContainer.className = 'card p-6 fade-in';
+            manageUsersContainer.innerHTML = `
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4 sm:mb-0">Manage Clinic Users</h2>
+                    <button id="back-to-dashboard-from-users-btn" class="btn-secondary">Back to Dashboard</button>
+                </div>
+                <div id="users-list" class="space-y-4">
+                    </div>
+            `;
+            appContent.appendChild(manageUsersContainer);
+            document.getElementById('back-to-dashboard-from-users-btn').addEventListener('click', renderDashboard);
+            loadAllUsers();
+        }
+
+        async function loadAllUsers() {
+            const usersListDiv = document.getElementById('users-list');
+            usersListDiv.innerHTML = '<p class="text-gray-500 text-center">Loading users...</p>';
+            const usersData = await fetchData('/users');
+
+            if (usersData) {
+                usersListDiv.innerHTML = '';
+                // Convert object to array for sorting
+                const usersArray = Object.values(usersData).sort((a, b) => a.name.localeCompare(b.name));
+
+                if (usersArray.length > 0) {
+                    usersArray.forEach(user => {
+                        const userCard = document.createElement('div');
+                        userCard.className = 'bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200 flex flex-col sm:flex-row justify-between items-center';
+                        const joinDate = new Date(user.date_joined).toLocaleDateString();
+                        userCard.innerHTML = `
+                            <div class="text-center sm:text-left mb-2 sm:mb-0">
+                                <h4 class="text-lg font-semibold text-indigo-700">${user.name} (<span class="font-medium">${user.role.charAt(0).toUpperCase() + user.role.slice(1)}</span>)</h4>
+                                <p class="text-sm text-gray-600">Username: ${user.username}</p>
+                                <p class="text-sm text-gray-600">Joined: ${joinDate}</p>
+                            </div>
+                            ${user.role !== 'admin' ? `<button class="btn-danger delete-user-btn" data-user-id="${user.id}" data-user-name="${user.name}" data-user-role="${user.role}">Delete</button>` : ''}
+                        `;
+                        usersListDiv.appendChild(userCard);
+                    });
+
+                    // Add event listeners for delete buttons
+                    document.querySelectorAll('.delete-user-btn').forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            const userId = event.target.dataset.userId;
+                            const userName = event.target.dataset.userName;
+                            const userRole = event.target.dataset.userRole;
+                            showConfirmationModal(
+                                `Delete ${userName} (${userRole})?`,
+                                `This will permanently remove this user and all associated data (plans, notes, reports). Patients assigned to this therapist will become unassigned.`,
+                                (confirmed) => {
+                                    if (confirmed) {
+                                        deleteUser(userId);
+                                    }
+                                }
+                            );
+                        });
+                    });
+
+                } else {
+                    usersListDiv.innerHTML = '<p class="text-gray-500 text-center">No users found.</p>';
+                }
+            }
+        }
+
+        async function deleteUser(userId) {
+            try {
+                const response = await fetchData(`/users/${userId}`, 'DELETE');
+                if (response) {
+                    displayMessage(globalStatusMessage, response.message, false); // Use global message
+                    loadAllUsers(); // Refresh the list
+                }
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                displayMessage(globalStatusMessage, `Failed to delete user: ${error.message}`, true); // Use global message
+            }
+        }
+
+
+        // --- Patient Management (Therapist & Supervisor/Admin) ---
+        async function loadTherapistPatients() {
+            const patientListDiv = document.getElementById('patient-list');
+            patientListDiv.innerHTML = '<p class="text-gray-500 text-center">Loading patients...</p>';
+            const patientsData = await fetchData(`/patients?role=${currentRole}&userId=${currentUser}`);
+
+            if (patientsData && patientsData.length > 0) {
+                patientListDiv.innerHTML = '';
+                patientsData.forEach(patient => {
+                    const patientCard = document.createElement('div');
+                    patientCard.className = 'bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors flex flex-col justify-between';
+                    const joinDate = new Date(patient.date_joined).toLocaleDateString();
+                    patientCard.innerHTML = `
+                        <div>
+                            <h4 class="text-lg font-semibold text-indigo-700 mb-1">${patient.name}</h4>
+                            <p class="text-sm text-gray-600">Age: ${patient.age}</p>
+                            <p class="text-sm text-gray-600">Diagnosis: ${patient.diagnosis}</p>
+                            <p class="text-sm text-gray-600">Status: <span class="font-medium text-green-600">${patient.status}</span></p>
+                            <p class="text-sm text-gray-600 mb-2">Joined: ${joinDate}</p>
+                        </div>
+                        <button class="btn-danger mt-auto delete-patient-btn" data-patient-id="${patient.id}" data-patient-name="${patient.name}">Delete Patient</button>
+                    `;
+                    patientCard.querySelector('h4').addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent delete button click from triggering viewPatientDetails
+                        viewPatientDetails(patient.id);
+                    });
+                    patientCard.querySelector('.delete-patient-btn').addEventListener('click', (event) => {
+                        event.stopPropagation(); // Prevent card click event from firing
+                        const patientId = event.target.dataset.patientId;
+                        const patientName = event.target.dataset.patientName;
+                        showConfirmationModal(
+                            `This will permanently remove this patient and all their associated data (plans, notes, reports).`,
+                            (confirmed) => {
+                                if (confirmed) {
+                                    deletePatient(patientId);
+                                }
+                            }
+                        );
+                    });
+                    patientListDiv.appendChild(patientCard);
+                });
+            } else {
+                patientListDiv.innerHTML = '<p class="text-gray-500 text-center italic">No patients assigned yet.</p>';
+            }
+        }
+
+        async function loadAllPatients() {
+            const allPatientListDiv = document.getElementById('all-patient-list');
+            allPatientListDiv.innerHTML = '<p class="text-gray-500 text-center">Loading all patients...</p>';
+            const patientsData = await fetchData(`/patients?role=${currentRole}`);
+
+            if (patientsData && patientsData.length > 0) {
+                allPatientListDiv.innerHTML = '';
+                patientsData.forEach(patient => {
+                    const therapistName = getTherapistNameById(patient.assigned_therapist_id);
+                    const joinDate = new Date(patient.date_joined).toLocaleDateString();
+                    const patientCard = document.createElement('div');
+                    patientCard.className = 'bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors flex flex-col justify-between';
+                    patientCard.innerHTML = `
+                        <div>
+                            <h4 class="text-lg font-semibold text-indigo-700 mb-1">${patient.name}</h4>
+                            <p class="text-sm text-gray-600">Age: ${patient.age}</p>
+                            <p class="text-sm text-gray-600">Diagnosis: ${patient.diagnosis}</p>
+                            <p class="text-sm text-gray-600">Assigned: ${therapistName}</p>
+                            <p class="text-sm text-gray-600">Status: <span class="font-medium text-green-600">${patient.status}</span></p>
+                            <p class="text-sm text-gray-600 mb-2">Joined: ${joinDate}</p>
+                        </div>
+                        <button class="btn-danger mt-auto delete-patient-btn" data-patient-id="${patient.id}" data-patient-name="${patient.name}">Delete Patient</button>
+                    `;
+                    patientCard.querySelector('h4').addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent delete button click from triggering viewPatientDetails
+                        viewPatientDetails(patient.id);
+                    });
+                     patientCard.querySelector('.delete-patient-btn').addEventListener('click', (event) => {
+                        event.stopPropagation(); // Prevent card click event from firing
+                        const patientId = event.target.dataset.patientId;
+                        const patientName = event.target.dataset.patientName;
+                        showConfirmationModal(
+                            `Delete Patient ${patientName}?`,
+                            `This will permanently remove this patient and all their associated data (plans, notes, reports).`,
+                            (confirmed) => {
+                                if (confirmed) {
+                                    deletePatient(patientId);
+                                }
+                            }
+                        );
+                    });
+                    allPatientListDiv.appendChild(patientCard);
+                });
+            } else {
+                allPatientListDiv.innerHTML = '<p class="text-gray-500 text-center italic">No patients in the system.</p>';
+            }
+        }
+
+        async function openPatientModal(mode, patient = null) {
+            patientForm.reset();
+            assignTherapistField.classList.add('hidden');
+            patientIdInput.value = '';
+            clearMessage(patientForm.querySelector('button[type="submit"]').nextElementSibling); // Clear message
+
+            if (currentRole === 'supervisor' || currentRole === 'admin') {
+                assignTherapistField.classList.remove('hidden');
+                assignedTherapistSelect.innerHTML = '<option value="">Select Therapist</option>';
+                for (const userId in allTherapists) {
+                    const option = document.createElement('option');
+                    option.value = userId;
+                    option.textContent = allTherapists[userId];
+                    assignedTherapistSelect.appendChild(option);
+                }
+            }
+
+            if (mode === 'add') {
+                patientModalTitle.textContent = 'Add New Patient';
+            } else if (mode === 'edit' && patient) {
+                patientModalTitle.textContent = 'Edit Patient Details';
+                patientIdInput.value = patient.id;
+                patientNameInput.value = patient.name;
+                patientAgeInput.value = patient.age;
+                patientDiagnosisInput.value = patient.diagnosis;
+                if ((currentRole === 'supervisor' || currentRole === 'admin') && patient.assigned_therapist_id) {
+                    assignedTherapistSelect.value = patient.assigned_therapist_id;
+                }
+            }
+            openModal(patientModal); // Changed to openModal for transition
+        }
+
+        async function handleSavePatient(event) {
+            event.preventDefault();
+            const patientId = patientIdInput.value;
+            const name = patientNameInput.value;
+            const age = patientAgeInput.value;
+            const diagnosis = patientDiagnosisInput.value;
+            let assignedTherapistId = '';
+
+            if (currentRole === 'supervisor' || currentRole === 'admin') {
+                assignedTherapistId = assignedTherapistSelect.value;
+                if (!assignedTherapistId) {
+                    displayMessage(patientForm.querySelector('button[type="submit"]').nextElementSibling, 'Please assign a therapist.', true);
+                    return;
+                }
+            } else {
+                assignedTherapistId = currentUser;
+            }
+
+            const patientData = { name, age: parseInt(age), diagnosis, assigned_therapist_id: assignedTherapistId };
+
+            let response;
+            if (patientId) {
+                response = await fetchData(`/patients/${patientId}`, 'PUT', patientData);
+            } else {
+                response = await fetchData('/patients', 'POST', patientData);
+            }
+
+            if (response) {
+                closeModal('patient-modal');
+                displayMessage(globalStatusMessage, `Patient ${patientId ? 'updated' : 'added'} successfully!`, false);
+                if (currentRole === 'therapist') {
+                    loadTherapistPatients();
+                } else {
+                    loadAllPatients();
+                }
+            }
+        }
+
+        async function deletePatient(patientId) {
+            try {
+                const response = await fetchData(`/patients/${patientId}`, 'DELETE');
+                if (response) {
+                    displayMessage(globalStatusMessage, response.message, false);
+                    if (currentRole === 'therapist') {
+                        loadTherapistPatients();
+                    } else {
+                        loadAllPatients();
+                    }
+                }
+            } catch (error) {
+                console.error('Error deleting patient:', error);
+                displayMessage(globalStatusMessage, `Failed to delete patient: ${error.message}`, true);
+            }
+        }
+
+        async function viewPatientDetails(patientId) {
+            currentPatientId = patientId;
+            const patient = await fetchData(`/patients/${patientId}`);
+
+            if (!patient) {
+                console.error("Patient not found!");
+                displayMessage(globalStatusMessage, 'Patient details not found.', true);
+                return;
+            }
+            
+            const assignedTherapistName = getTherapistNameById(patient.assigned_therapist_id);
+
+            appContent.innerHTML = `
+                <div class="card p-6 mb-6 fade-in">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-4">${patient.name} <span class="text-gray-500 text-xl">(${patient.age} yrs)</span></h3>
+                    <p class="text-lg text-gray-700 mb-2"><strong>Diagnosis:</strong> ${patient.diagnosis}</p>
+                    <p class="text-lg text-gray-700 mb-4"><strong>Assigned Therapist:</strong> ${assignedTherapistName}</p>
+                    <p class="text-lg text-gray-700 mb-4"><strong>Date Joined:</strong> ${new Date(patient.date_joined).toLocaleDateString()}</p>
+                    ${currentRole === 'therapist' ? `<button id="edit-patient-details-btn" class="btn-secondary mr-2">Edit Patient Details</button>` : ''}
+                    <button id="back-to-dashboard-btn" class="btn-secondary">Back to Dashboard</button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-xl font-semibold text-gray-700">Therapy Plans</h4>
+                            ${currentRole === 'therapist' ? `<button id="add-therapy-plan-btn" class="btn-primary">Add New Plan</button>` : ''}
+                        </div>
+                        <div id="therapy-plans-list" class="space-y-4"></div>
+                    </div>
+
+                    <div class="card p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-xl font-semibold text-gray-700">Session Notes</h4>
+                            ${currentRole === 'therapist' ? `<button id="add-session-note-btn" class="btn-primary">Add New Note</button>` : ''}
+                        </div>
+                        <div id="session-notes-list" class="space-y-4"></div>
+                    </div>
+
+                    <div class="card p-6 lg:col-span-2">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-xl font-semibold text-gray-700">Progress Reports</h4>
+                            ${currentRole === 'therapist' ? `<button id="add-progress-report-btn" class="btn-primary">Add Progress Report</button>` : ''}
+                        </div>
+                        <div id="progress-reports-list" class="space-y-4"></div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('back-to-dashboard-btn').addEventListener('click', renderDashboard);
+            if (currentRole === 'therapist') {
+                const editBtn = document.getElementById('edit-patient-details-btn');
+                if (editBtn) editBtn.addEventListener('click', () => openPatientModal('edit', patient));
+
+                const addPlanBtn = document.getElementById('add-therapy-plan-btn');
+                if (addPlanBtn) addPlanBtn.addEventListener('click', () => openTherapyPlanModal('add', currentPatientId));
+
+                const addNoteBtn = document.getElementById('add-session-note-btn');
+                if (addNoteBtn) addNoteBtn.addEventListener('click', () => openSessionNoteModal('add', currentPatientId));
+
+                const addReportBtn = document.getElementById('add-progress-report-btn');
+                if (addReportBtn) addReportBtn.addEventListener('click', () => openProgressReportModal('add', currentPatientId));
+            }
+
+            loadTherapyPlans(patientId);
+            loadSessionNotes(patientId);
+            loadProgressReports(patientId);
+        }
+
+        // --- Therapy Plan Management ---
+        async function loadTherapyPlans(patientId) {
+            const plansListDiv = document.getElementById('therapy-plans-list');
+            plansListDiv.innerHTML = '<p class="text-gray-500 text-center italic">Loading therapy plans...</p>';
+            const plansData = await fetchData(`/therapy_plans?patient_id=${patientId}`);
+
+            if (plansData && plansData.length > 0) {
+                plansListDiv.innerHTML = '';
+                plansData.forEach(plan => {
+                    const planCard = document.createElement('div');
+                    const statusClass = plan.status.toLowerCase().replace(' ', '-');
+                    planCard.className = `bg-blue-50 p-3 rounded-lg border border-blue-200 cursor-pointer hover:bg-blue-100 transition-colors overview-card ${statusClass}`;
+                    planCard.innerHTML = `
+                        <h5 class="font-semibold text-blue-800">Goals: ${plan.goals.substring(0, 50)}...</h5>
+                        <p class="text-sm text-gray-600">Status: <span class="font-medium ${plan.status === 'Approved' ? 'text-green-600' : 'text-orange-600'}">${plan.status}</span></p>
+                    `;
+                    planCard.addEventListener('click', () => openTherapyPlanModal('view-edit', patientId, plan));
+                    plansListDiv.appendChild(planCard);
+                });
+            } else {
+                plansListDiv.innerHTML = '<p class="text-gray-500 text-center italic">No therapy plans found.</p>';
+            }
+        }
+
+        async function openTherapyPlanModal(mode, patientId, plan = null) {
+            therapyPlanForm.reset();
+            planPatientIdInput.value = patientId;
+            planStatusFeedbackDiv.classList.add('hidden');
+            supervisorPlanReviewActions.classList.add('hidden');
+            planGoalsInput.readOnly = false;
+            planActivitiesInput.readOnly = false;
+            therapyPlanForm.querySelector('button[type="submit"]').classList.remove('hidden');
+            generatePlanBtn.classList.remove('hidden');
+            clearMessage(generatePlanMessage); // Clear message
+
+            if (mode === 'add') {
+                planIdInput.value = '';
+            } else if (mode === 'view-edit' && plan) {
+                planIdInput.value = plan.id;
+                planGoalsInput.value = plan.goals;
+                planActivitiesInput.value = plan.activities;
+
+                planCurrentStatusSpan.textContent = plan.status;
+                planCurrentFeedbackSpan.textContent = plan.supervisor_feedback || 'N/A';
+                planStatusFeedbackDiv.classList.remove('hidden');
+
+                if (currentRole === 'supervisor' || currentRole === 'admin') {
+                    planGoalsInput.readOnly = true;
+                    planActivitiesInput.readOnly = true;
+                    planReviewFeedbackTextarea.value = plan.supervisor_feedback;
+                    supervisorPlanReviewActions.classList.remove('hidden');
+                    therapyPlanForm.querySelector('button[type="submit"]').classList.add('hidden');
+                    generatePlanBtn.classList.add('hidden'); // Supervisor reviews, doesn't generate for this plan
+                } else if (currentRole === 'therapist' && plan.status !== 'Pending Review') {
+                    planGoalsInput.readOnly = true;
+                    planActivitiesInput.readOnly = true;
+                    therapyPlanForm.querySelector('button[type="submit"]').classList.add('hidden');
+                    generatePlanBtn.classList.add('hidden'); // Therapist can't edit reviewed/approved plans
+                } else {
+                    // Therapist with 'Pending Review' plan or new plan
+                    generatePlanBtn.classList.remove('hidden');
+                }
+            }
+            openModal(therapyPlanModal); // Changed to openModal for transition
+        }
+
+        async function handleGenerateTherapyPlan() {
+            const patientId = planPatientIdInput.value;
+            if (!patientId) {
+                displayMessage(generatePlanMessage, 'Please select a patient first.', true);
+                return;
+            }
+
+            const patient = await fetchData(`/patients/${patientId}`);
+            
+            if (!patient || !patient.diagnosis || patient.age === undefined) {
+                displayMessage(generatePlanMessage, 'Patient diagnosis or age not found. Cannot generate plan.', true);
+                return;
+            }
+
+            displayMessage(generatePlanMessage, 'Generating plan based on diagnosis and age...', false);
+            generatePlanBtn.disabled = true;
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/therapy_plans/generate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ diagnosis: patient.diagnosis, age: patient.age })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    planGoalsInput.value = data.goals;
+                    planActivitiesInput.value = data.activities;
+                    displayMessage(generatePlanMessage, `Plan generated successfully from source: ${data.source_diagnosis} (Age: ${data.source_age})`, false);
+                } else {
+                    displayMessage(generatePlanMessage, data.message || 'Failed to generate plan. Please try again.', true);
+                }
+            } catch (error) {
+                console.error('Error generating plan:', error);
+                displayMessage(generatePlanMessage, `Error: ${error.message}`, true);
+            } finally {
+                generatePlanBtn.disabled = false;
+            }
+        }
+
+
+        async function handleSaveTherapyPlan(event) {
+            event.preventDefault();
+            const planId = planIdInput.value;
+            const patientId = planPatientIdInput.value;
+            const goals = planGoalsInput.value;
+            const activities = planActivitiesInput.value;
+
+            if (!goals || !activities) {
+                displayMessage(therapyPlanForm.querySelector('button[type="submit"]').nextElementSibling, 'Goals and activities are required.', true);
+                return;
+            }
+
+            const planData = { patient_id: patientId, therapist_id: currentUser, goals, activities };
+
+            let response;
+            if (planId) {
+                response = await fetchData(`/therapy_plans/${planId}`, 'PUT', planData);
+            } else {
+                response = await fetchData('/therapy_plans', 'POST', planData);
+            }
+
+            if (response) {
+                closeModal('therapy-plan-modal');
+                displayMessage(globalStatusMessage, `Therapy plan ${planId ? 'updated' : 'added'} successfully!`, false);
+                loadTherapyPlans(patientId);
+                // If on an overview page, refresh it
+                if (!therapyPlansOverviewPage.classList.contains('hidden')) {
+                    renderTherapyPlansOverviewPage();
+                }
+            }
+        }
+
+        async function reviewTherapyPlan(status) {
+            const planId = planIdInput.value;
+            const feedback = planReviewFeedbackTextarea.value;
+            const patientId = planPatientIdInput.value;
+
+            if (!feedback) {
+                displayMessage(therapyPlanForm.querySelector('button[type="submit"]').nextElementSibling, 'Feedback is required for review.', true);
+                return;
+            }
+
+            const response = await fetchData(`/reviews/plans/${planId}`, 'PUT', { feedback, status });
+            if (response) {
+                closeModal('therapy-plan-modal');
+                displayMessage(globalStatusMessage, `Therapy plan marked as ${status}!`, false);
+                loadTherapyPlans(patientId);
+                // If on an overview page, refresh it
+                if (!therapyPlansOverviewPage.classList.contains('hidden')) {
+                    renderTherapyPlansOverviewPage();
+                }
+            }
+        }
+
+        // --- Session Note Management ---
+        async function loadSessionNotes(patientId) {
+            const notesListDiv = document.getElementById('session-notes-list');
+            notesListDiv.innerHTML = '<p class="text-gray-500 text-center italic">Loading session notes...</p>';
+            const notesData = await fetchData(`/session_notes?patient_id=${patientId}`);
+
+            if (notesData && notesData.length > 0) {
+                notesListDiv.innerHTML = '';
+                notesData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                notesData.forEach(note => {
+                    const noteCard = document.createElement('div');
+                    noteCard.className = 'bg-green-50 p-3 rounded-lg border border-green-200 cursor-pointer hover:bg-green-100 transition-colors';
+                    noteCard.innerHTML = `
+                        <p class="font-semibold text-green-800">Date: ${note.date}</p>
+                        <p class="text-sm text-gray-700">${note.note.substring(0, 100)}...</p>
+                        <button class="text-indigo-600 hover:underline text-sm mt-1" onclick="openSessionNoteModal('view', '${patientId}', ${note.id})">View Full Note</button>
+                    `;
+                    notesListDiv.appendChild(noteCard);
+                });
+            } else {
+                notesListDiv.innerHTML = '<p class="text-gray-500 text-center italic">No session notes found.</p>';
+            }
+        }
+
+        async function openSessionNoteModal(mode, patientId, noteId = null) {
+            sessionNoteForm.reset();
+            notePatientIdInput.value = patientId;
+            noteIdInput.value = ''; // Clear for add mode
+            notePlanIdInput.value = ''; // Ensure this hidden input is reset
+            sessionNoteForm.querySelector('button[type="submit"]').classList.remove('hidden');
+            clearMessage(sessionNoteForm.querySelector('button[type="submit"]').nextElementSibling); // Clear message
+
+            clearMessage(noteVideoUploadMessage);
+            currentNoteVideoDiv.classList.add('hidden');
+            currentNoteVideoElement.src = '';
+            noteVideoUploadInput.disabled = false; // Enable by default for add/edit
+            noteDateInput.readOnly = false; // Ensure editable for add/edit
+            noteContentTextarea.readOnly = false; // Ensure editable for add/edit
+
+
+            if (mode === 'add') {
+                noteDateInput.valueAsDate = new Date();
+            } else if (mode === 'view' && noteId !== null) {
+                const notesData = await fetchData(`/session_notes?patient_id=${patientId}`);
+                const note = notesData.find(n => n.id === parseInt(noteId));
+
+                if (note) {
+                    noteIdInput.value = note.id;
+                    noteDateInput.value = note.date;
+                    noteContentTextarea.value = note.note;
+                    noteDateInput.readOnly = true;
+                    noteContentTextarea.readOnly = true;
+                    sessionNoteForm.querySelector('button[type="submit"]').classList.add('hidden');
+
+                    if (note.video_url) {
+                        currentNoteVideoElement.src = BACKEND_URL + note.video_url;
+                        currentNoteVideoLink.href = BACKEND_URL + note.video_url;
+                        currentNoteVideoDiv.classList.remove('hidden');
+                    }
+                    noteVideoUploadInput.disabled = true; // Disable upload in view mode
+                } else {
+                    console.error("Session note not found for ID:", noteId);
+                    displayMessage(globalStatusMessage, 'Session note not found.', true);
+                    return;
+                }
+            }
+            openModal(sessionNoteModal); // Changed to openModal for transition
+        }
+
+        async function handleSaveSessionNote(event) {
+            event.preventDefault();
+            const noteId = noteIdInput.value;
+            const patientId = notePatientIdInput.value;
+            const date = noteDateInput.value;
+            const noteContent = noteContentTextarea.value;
+            const planId = notePlanIdInput.value; // This will be empty if not explicitly set in UI
+            let videoUrl = null;
+
+            if (!date || !noteContent) {
+                displayMessage(sessionNoteForm.querySelector('button[type="submit"]').nextElementSibling, 'Date and content are required.', true);
+                return;
+            }
+
+            const videoFile = noteVideoUploadInput.files[0];
+
+            if (videoFile) {
+                displayMessage(noteVideoUploadMessage, 'Uploading video...', false);
+                const formData = new FormData();
+                formData.append('video', videoFile);
+
+                try {
+                    const uploadResponse = await fetchData(`/upload_video`, 'POST', formData, true); // Pass true for isFormData
+                    if (uploadResponse) {
+                        videoUrl = uploadResponse.url; // Use 'url' from Flask response
+                        displayMessage(noteVideoUploadMessage, 'Video uploaded successfully!', false);
+                    } else {
+                        displayMessage(noteVideoUploadMessage, 'Video upload failed. Please try again.', true);
+                        return; // Stop if upload failed
+                    }
+                } catch (error) {
+                    console.error('Video upload error:', error);
+                    displayMessage(noteVideoUploadMessage, `Video upload error: ${error.message}`, true);
+                    return; // Stop if upload failed
+                }
+            } else if (noteId) {
+                // If editing an existing note and no new video is uploaded, retain existing video URL
+                const allNotes = await fetchData(`/session_notes?patient_id=${patientId}`);
+                const existingNote = allNotes.find(n => n.id == parseInt(noteId));
+                if (existingNote) {
+                    videoUrl = existingNote.video_url;
+                }
+            }
+
+            const noteData = { patient_id: patientId, therapist_id: currentUser, date, note: noteContent, plan_id: planId, video_url: videoUrl };
+
+            let response;
+            if (noteId) {
+                response = await fetchData(`/session_notes/${noteId}`, 'PUT', noteData);
+            } else {
+                response = await fetchData('/session_notes', 'POST', noteData);
+            }
+
+            if (response) {
+                closeModal('session-note-modal');
+                displayMessage(globalStatusMessage, `Session note ${noteId ? 'updated' : 'added'} successfully!`, false);
+                loadSessionNotes(patientId);
+            }
+        }
+
+        // --- Progress Report Management ---
+        async function loadProgressReports(patientId) {
+            const reportsListDiv = document.getElementById('progress-reports-list');
+            reportsListDiv.innerHTML = '<p class="text-gray-500 text-center italic">Loading progress reports...</p>';
+            const reportsData = await fetchData(`/progress_reports?patient_id=${patientId}`);
+
+            if (reportsData && reportsData.length > 0) {
+                reportsListDiv.innerHTML = '';
+                reportsData.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by report date
+
+                for (const report of reportsData) {
+                    // For patient details, since we're already in a patient details view, use currentPatientId and name if available
+                    const patientName = patientId && patientId === report.patient_id ? (document.querySelector('.card h3')?.textContent?.split('(')[0]?.trim() || 'This Patient') : 'Unknown Patient';
+                    const therapistName = getTherapistNameById(report.therapist_id);
+                    const statusClass = report.status.toLowerCase().replace(' ', '-');
+
+                    const reportCard = document.createElement('div');
+                    reportCard.className = `overview-card cursor-pointer hover:bg-yellow-100 transition-colors ${statusClass}`;
+                    reportCard.innerHTML = `
+                        <h5 class="text-lg font-semibold text-yellow-800 mb-1">Date: ${report.date}</h5>
+                        <p class="text-sm text-gray-700">Therapist: ${therapistName}</p>
+                        <p class="text-sm text-gray-700">Summary: ${report.summary.substring(0, 80)}...</p>
+                        <p class="text-sm font-medium mt-2">Status: <span class="${report.status === 'Approved' ? 'text-green-600' : report.status === 'Revisions Needed' ? 'text-orange-600' : 'text-yellow-600'}">${report.status}</span></p>
+                    `;
+                    reportCard.addEventListener('click', () => openProgressReportModal('view-edit', patientId, report));
+                    reportsListDiv.appendChild(reportCard);
+                }
+            } else {
+                reportsListDiv.innerHTML = '<p class="text-gray-500 text-center italic">No progress reports found.</p>';
+            }
+        }
+
+        async function openProgressReportModal(mode, patientId, report = null) {
+            progressReportForm.reset();
+            reportPatientIdInput.value = patientId;
+            reportStatusEvaluationDiv.classList.add('hidden');
+            supervisorReportReviewActions.classList.add('hidden');
+            reportDateInput.readOnly = false;
+            reportSummaryTextarea.readOnly = false;
+            progressReportForm.querySelector('button[type="submit"]').classList.remove('hidden');
+            clearMessage(progressReportForm.querySelector('button[type="submit"]').nextElementSibling); // Clear message
+
+            if (mode === 'add') {
+                reportIdInput.value = '';
+                reportDateInput.valueAsDate = new Date();
+            } else if (mode === 'view-edit' && report) {
+                reportIdInput.value = report.id;
+                reportDateInput.value = report.date;
+                reportSummaryTextarea.value = report.summary;
+
+                reportCurrentStatusSpan.textContent = report.status;
+                reportCurrentEvaluationSpan.textContent = report.supervisor_evaluation || 'N/A';
+                reportCurrentRatingSpan.textContent = report.clinical_rating || 'N/A';
+                reportStatusEvaluationDiv.classList.remove('hidden');
+
+                if (currentRole === 'supervisor' || currentRole === 'admin') {
+                    reportDateInput.readOnly = true;
+                    reportSummaryTextarea.readOnly = true;
+                    reportReviewEvaluationTextarea.value = report.supervisor_evaluation;
+                    reportReviewRatingInput.value = report.clinical_rating;
+                    supervisorReportReviewActions.classList.remove('hidden');
+                    progressReportForm.querySelector('button[type="submit"]').classList.add('hidden'); // Hide save button for supervisor review
+                } else if (currentRole === 'therapist' && report.status !== 'Pending Review') {
+                    reportDateInput.readOnly = true;
+                    reportSummaryTextarea.readOnly = true;
+                    progressReportForm.querySelector('button[type="submit"]').classList.add('hidden');
+                }
+            }
+            openModal(progressReportModal); // Changed to openModal for transition
+        }
+
+        async function handleSaveProgressReport(event) {
+            event.preventDefault();
+            const reportId = reportIdInput.value;
+            const patientId = reportPatientIdInput.value;
+            const date = reportDateInput.value;
+            const summary = reportSummaryTextarea.value;
+
+            if (!date || !summary) {
+                displayMessage(progressReportForm.querySelector('button[type="submit"]').nextElementSibling, 'Date and summary are required.', true);
+                return;
+            }
+
+            const reportData = { patient_id: patientId, therapist_id: currentUser, date, summary };
+
+            let response;
+            if (reportId) {
+                response = await fetchData(`/progress_reports/${reportId}`, 'PUT', reportData);
+            } else {
+                response = await fetchData('/progress_reports', 'POST', reportData);
+            }
+
+            if (response) {
+                closeModal('progress-report-modal');
+                displayMessage(globalStatusMessage, `Progress report ${reportId ? 'updated' : 'added'} successfully!`, false);
+                loadProgressReports(patientId);
+                // If on an overview page, refresh it
+                if (!progressReportsOverviewPage.classList.contains('hidden')) {
+                    renderProgressReportsOverviewPage();
+                }
+            }
+        }
+
+        // --- Supervisor/Admin Overview Pages ---
+        async function renderTherapyPlansOverviewPage() {
+            // Hide dashboard and other overview pages
+            appContent.innerHTML = '';
+            progressReportsOverviewPage.classList.add('hidden');
+            mlPlanPage.classList.add('hidden'); // NEW: Hide ML page
+            therapyPlansOverviewPage.classList.remove('hidden'); // Show this page
+
+            allTherapyPlansList.innerHTML = '<p class="text-gray-500 text-center italic">Loading all therapy plans...</p>';
+            const allPlansData = await fetchData('/therapy_plans');
+
+            if (allPlansData && allPlansData.length > 0) {
+                allTherapyPlansList.innerHTML = '';
+                allPlansData.sort((a, b) => new Date(b.date_created) - new Date(a.date_created)); // Sort by creation date
+
+                for (const plan of allPlansData) {
+                    const patient = await fetchData(`/patients/${plan.patient_id}`); // Fetch patient details
+                    const patientName = patient ? patient.name : 'Unknown Patient';
+                    const therapistName = getTherapistNameById(plan.therapist_id);
+                    const statusClass = plan.status.toLowerCase().replace(' ', '-');
+
+                    const planCard = document.createElement('div');
+                    planCard.className = `overview-card cursor-pointer hover:bg-blue-100 transition-colors ${statusClass}`;
+                    planCard.innerHTML = `
+                        <h5 class="text-lg font-semibold text-blue-800 mb-1">Patient: ${patientName}</h5>
+                        <p class="text-sm text-gray-700">Therapist: ${therapistName}</p>
+                        <p class="text-sm text-gray-700">Goals: ${plan.goals.substring(0, 80)}...</p>
+                        <p class="text-sm font-medium mt-2">Status: <span class="${plan.status === 'Approved' ? 'text-green-600' : plan.status === 'Revisions Needed' ? 'text-orange-600' : 'text-yellow-600'}">${plan.status}</span></p>
+                        <p class="text-xs text-gray-500 mt-1">Created: ${new Date(plan.date_created).toLocaleDateString()}</p>
+                    `;
+                    planCard.addEventListener('click', () => openTherapyPlanModal('view-edit', plan.patient_id, plan));
+                    allTherapyPlansList.appendChild(planCard);
+                }
+            } else {
+                allTherapyPlansList.innerHTML = '<p class="text-gray-500 text-center italic">No therapy plans found in the system.</p>';
+            }
+        }
+
+        async function renderProgressReportsOverviewPage() {
+            // Hide dashboard and other overview pages
+            appContent.innerHTML = '';
+            therapyPlansOverviewPage.classList.add('hidden');
+            mlPlanPage.classList.add('hidden'); // NEW: Hide ML page
+            progressReportsOverviewPage.classList.remove('hidden'); // Show this page
+
+            allProgressReportsList.innerHTML = '<p class="text-gray-500 text-center italic">Loading all progress reports...</p>';
+            const allReportsData = await fetchData('/progress_reports');
+
+            if (allReportsData && allReportsData.length > 0) {
+                allProgressReportsList.innerHTML = '';
+                allReportsData.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by report date
+
+                for (const report of allReportsData) {
+                    const patient = await fetchData(`/patients/${report.patient_id}`); // Fetch patient details
+                    const patientName = patient ? patient.name : 'Unknown Patient';
+                    const therapistName = getTherapistNameById(report.therapist_id);
+                    const statusClass = report.status.toLowerCase().replace(' ', '-');
+
+                    const reportCard = document.createElement('div');
+                    reportCard.className = `overview-card cursor-pointer hover:bg-yellow-100 transition-colors ${statusClass}`;
+                    reportCard.innerHTML = `
+                        <h5 class="text-lg font-semibold text-yellow-800 mb-1">Patient: ${patientName}</h5>
+                        <p class="text-sm text-gray-700">Therapist: ${therapistName}</p>
+                        <p class="text-sm text-gray-700">Date: ${report.date}</p>
+                        <p class="text-sm text-gray-700">Summary: ${report.summary.substring(0, 80)}...</p>
+                        <p class="text-sm font-medium mt-2">Status: <span class="${report.status === 'Approved' ? 'text-green-600' : report.status === 'Revisions Needed' ? 'text-orange-600' : 'text-yellow-600'}">${report.status}</span></p>
+                    `;
+                    reportCard.addEventListener('click', () => openProgressReportModal('view-edit', report.patient_id, report));
+                    allProgressReportsList.appendChild(reportCard);
+                }
+            } else {
+                allProgressReportsList.innerHTML = '<p class="text-gray-500 text-center italic">No progress reports found in the system.</p>';
+            }
+        }
+
+        // --- Add Therapist Functionality (for Supervisor/Admin) ---
+        async function handleAddTherapist(event) {
+            event.preventDefault();
+            const name = newTherapistNameInput.value;
+            const username = newTherapistUsernameInput.value;
+            const password = newTherapistPasswordInput.value;
+
+            const data = await fetchData('/register', 'POST', { name, username, password, role: 'therapist' });
+
+            if (data) {
+                displayMessage(addTherapistMessage, data.message, false);
+                await fetchAllTherapists(); // Refresh therapist list
+                setTimeout(() => {
+                    closeModal('add-therapist-modal');
+                }, 1500);
+            } else {
+                // Error message already displayed by fetchData
+            }
+        }
+
+        // NEW: Render ML Therapy Plan Page
+        async function renderMLTherapyPlanPage() {
+            // Hide all other pages/modals
+            therapyPlansOverviewPage.classList.add('hidden');
+            progressReportsOverviewPage.classList.add('hidden');
+            closeModal('patient-modal');
+            closeModal('therapy-plan-modal');
+            closeModal('session-note-modal');
+            closeModal('progress-report-modal');
+            closeModal('register-modal');
+            closeModal('add-therapist-modal');
+            closeModal('confirmation-modal');
+
+            appContent.innerHTML = ''; // Clear existing content for the new page
+            mlPlanPage.classList.remove('hidden'); // Show the ML plan page
+
+            // Clear any previous results/messages
+            mlDiagnosisInputPage.value = '';
+            mlAgeInputPage.value = '';
+            mlPlanResultsDivPage.classList.add('hidden');
+            clearMessage(mlPlanMessagePage);
+            mlPlanLoadingPage.classList.add('hidden');
+        }
+
+        // NEW: Handle Generate ML Plan from ML Page
+        async function handleGenerateMLPlanPage() {
+            const diagnosis = mlDiagnosisInputPage.value.trim();
+            const age = parseInt(mlAgeInputPage.value, 10);
+
+            clearMessage(mlPlanMessagePage);
+            mlPlanResultsDivPage.classList.add('hidden');
+            mlPlanLoadingPage.classList.remove('hidden'); // Show loading indicator
+            generateMlPlanBtnPage.disabled = true; // Disable button during generation
+
+            if (!diagnosis) {
+                displayMessage(mlPlanMessagePage, 'Please enter a diagnosis.', true);
+                mlPlanLoadingPage.classList.add('hidden');
+                generateMlPlanBtnPage.disabled = false;
+                return;
+            }
+            if (isNaN(age) || age <= 0) {
+                displayMessage(mlPlanMessagePage, 'Please enter a valid age (a positive number).', true);
+                mlPlanLoadingPage.classList.add('hidden');
+                generateMlPlanBtnPage.disabled = false;
+                return;
+            }
+
+            try {
+                const data = await fetchData('/therapy_plans/generate', 'POST', { diagnosis: diagnosis, age: age });
+                
+                if (data) {
+                    mlPlanGoalsSpanPage.textContent = data.goals;
+                    mlPlanActivitiesSpanPage.textContent = data.activities;
+                    mlPlanSourceDiagnosisSpanPage.textContent = data.source_diagnosis;
+                    mlPlanSourceAgeSpanPage.textContent = data.source_age;
+                    mlPlanResultsDivPage.classList.remove('hidden');
+                    displayMessage(mlPlanMessagePage, 'Plan generated successfully!', false);
+                } else {
+                    // fetchData already displays error messages for /therapy_plans/generate
+                }
+            } catch (error) {
+                console.error('Error generating ML plan from page:', error);
+                // Error message already handled by fetchData
+            } finally {
+                mlPlanLoadingPage.classList.add('hidden'); // Hide loading indicator
+                generateMlPlanBtnPage.disabled = false; // Re-enable button
+            }
+        }
+
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            authView.classList.remove('hidden');
+            mainNav.classList.add('hidden');
+            // Attempt to create initial data on page load, in case the server was just started
+            try {
+                await fetch(`${BACKEND_URL}/create_initial_data`, { method: 'POST' });
+                console.log("Initial data creation attempted.");
+            } catch (error) {
+                console.error("Error creating initial data (server might not be running or first run):", error);
+                displayMessage(globalStatusMessage, "Failed to connect to backend. Please ensure the Flask server is running at " + BACKEND_URL, true);
+            }
+        });
+
+    </script>
+<!-- 1. REVIEW PROGRESS REPORT WITHOUT POPUP -->
+<script>
+async function reviewProgressReport(status) {
+    const reportId = document.getElementById('report-id').value;
+    const evaluation = document.getElementById('report-review-evaluation').value;
+    const clinicalRating = document.getElementById('report-review-rating').value;
+
+    if (!reportId) return console.error("Report ID is missing.");
+    if (!evaluation || !clinicalRating) return displayMessage(progressReportForm.querySelector('button[type="submit"]').nextElementSibling, "Please enter both evaluation and clinical rating.", true);
+
+    const payload = { status, evaluation, clinical_rating: clinicalRating };
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/reviews/reports/${reportId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error((await response.json()).message || 'Update failed.');
+
+        closeModal('progress-report-modal');
+        displayMessage(globalStatusMessage, `Progress report marked as ${status}!`, false);
+        loadProgressReports(currentPatientId);
+        if (!progressReportsOverviewPage.classList.contains('hidden')) renderProgressReportsOverviewPage();
+    } catch (error) {
+        displayMessage(globalStatusMessage, `Error reviewing report: ${error.message}`, true);
+        console.error("Review report error:", error);
+    }
+}
+</script>
+
+</body>
+</html>
